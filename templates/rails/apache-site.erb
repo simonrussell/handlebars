@@ -51,6 +51,10 @@
   # Important rules to prevent exposure of SCM files if you are deploying with Capistrano !
   RewriteRule ^(.*/)?.svn/ - [forbidden,last]
   RewriteRule ^(.*/)?.git/ - [forbidden,last]
+
+  # Redirect non main sites, to main site
+  RewriteCond %{HTTP_HOST} !=<%= @domains.first %> [NC]
+  RewriteRule ^(.+)$        http://<%= @domains.first %>%{REQUEST_URI} [qsappend,redirect=301]
   
   # Check for maintenance file and redirect all requests
   RewriteCond <%= File.join(@cap_root, 'shared/system/maintenance.trigger') %> -f
