@@ -98,7 +98,7 @@ class AuthManager < Toolbase
     
     if options[:home]
       timezone_line = "export TZ=/usr/share/zoneinfo/#{options[:timezone]}"
-      @server_context.file.line "#{options[:home]}/.bashrc", timezone_line
+      @server_context.file.line "home/#{name}/.bashrc", timezone_line
     end
 
     unless login_keys.empty?
