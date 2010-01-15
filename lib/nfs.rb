@@ -20,8 +20,14 @@
 # 
 # (from http://www.opensource.org/licenses/mit-license.php)
 
-class nfs 
-  
-  private
+class Nfs < Toolbase 
+
+  def add_export(directory,hosts,permissions)
+    hosts_line = hosts.join(',')
+    permissions_line = permissions(',')
+    line = "#{directory} #{hosts_line}(#{permissions_line})"
+
+    @server_context.file.line "/etc/exports", line 
+  end
   
 end
