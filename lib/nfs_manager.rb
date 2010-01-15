@@ -20,7 +20,7 @@
 # 
 # (from http://www.opensource.org/licenses/mit-license.php)
 
-class Nfs < Toolbase 
+class NfsManager < Toolbase 
 
   def add_export(options)
     options[:directory],options[:hosts],options[:permissions]
