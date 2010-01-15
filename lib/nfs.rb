@@ -22,12 +22,13 @@
 
 class Nfs < Toolbase 
 
-  def add_export(directory,hosts,permissions)
-    hosts_line = hosts.join(',')
-    permissions_line = permissions(',')
-    line = "#{directory} #{hosts_line}(#{permissions_line})"
+  def add_export(options)
+    options[:directory],options[:hosts],options[:permissions]
+    hosts = options[:hosts].join(',')
+    permissions = permissions[:hosts].join(',')
+    line = "#{directory} #{hosts}(#{permissions})"
 
     @server_context.file.line "/etc/exports", line 
   end
-  
+
 end
