@@ -45,7 +45,7 @@ class Toolbase
       f.write(content || '')
     end
   end
-  
+
   def log
     @server_context.log
   end
