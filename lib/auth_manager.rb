@@ -34,6 +34,7 @@ class AuthManager < Toolbase
     options[:uid] ||= uids[name]
     options[:gid] ||= options[:uid]
     options[:shadow] ||= predefined_shadows[name]
+    options[:timezone] ||= 'UTC'
     
     login_keys = login_key(options.delete(:login_keys) || [])
     shadow = options.delete(:shadow)
@@ -80,8 +81,10 @@ class AuthManager < Toolbase
             "--shell #{v.inspect}"
           when :sudoer
             # nothing, dealt with later
+          when :timezone
+            # nothing, dealt with later
           else
-            fail! "#{k}: unknown option"
+            fail! "#{k}: unknown useradd option"
           end
         end
     
@@ -93,6 +96,11 @@ class AuthManager < Toolbase
       @server_context.file.line '/etc/sudoers', (options[:sudoer] == true ? "#{name} ALL=(ALL) ALL" : "#{name} #{options[:sudoer]}")
     end
     
+    if options[:home]
+      timezone_line = "export TZ=/usr/share/zoneinfo/#{timezone}"
+      @server_context.file.line "#{home}/.bashrc", timezone_line)
+    end
+
     unless login_keys.empty?
       @server_context.directory "~#{name}", :owner => name, :group => name, :mode => '755'
       @server_context.directory "~#{name}/.ssh", :owner => name, :group => name, :mode => '700'
@@ -152,6 +160,8 @@ class AuthManager < Toolbase
       end
     end
   end
+
+
   
   private
   
