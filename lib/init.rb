@@ -22,6 +22,7 @@
 
 $: << File.dirname(__FILE__)
 
+$HANDLEBARS_BASE = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 $APP_BASE = File.expand_path(File.join(File.dirname(__FILE__), '../..'))
 
 begin
