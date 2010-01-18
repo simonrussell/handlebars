@@ -176,13 +176,13 @@ class RemoteServer
   
   def run_bootstrap(hostname)
     log.info "run server side bootstrap" do
-      exec_command "cd /root/server-bootstrap && ruby run.rb bootstrap --hostname=#{hostname}", true
+      exec_command "cd /root/server-bootstrap && ./hb run bootstrap --hostname=#{hostname}", true
     end
   end
   
   def run_roles(*recipes)
     log.info "run role recipes" do
-      exec_command "cd /root/server-bootstrap && ruby run.rb #{recipes.flatten.join(' ')}", true
+      exec_command "cd /root/server-bootstrap && ./hb run #{recipes.flatten.join(' ')}", true
     end    
   end
   
