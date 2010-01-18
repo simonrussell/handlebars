@@ -103,7 +103,7 @@ class FileLayoutManager < Toolbase
   protected
   
   def test_existence?(name)
-    File.exist?(name)
+    raise "method is definied in child" 
   end
   
   def set_options_on_file(name, options)
