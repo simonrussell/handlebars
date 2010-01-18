@@ -103,7 +103,7 @@ class FileLayoutManager < Toolbase
   protected
   
   def test_existence?(name)
-    raise "not implemented"
+    File.exist?(name)
   end
   
   def set_options_on_file(name, options)
