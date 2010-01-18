@@ -49,7 +49,7 @@ class FileLayoutManager < Toolbase
   end
   
   def symlink(link, destination, options = {})
-    link = File.expand_path(source)
+    link = File.expand_path(link)
     destination = File.expand_path(destination)
     
     task "symlink #{link} to #{destination}", options do
