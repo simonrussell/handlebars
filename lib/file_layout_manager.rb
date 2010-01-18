@@ -48,32 +48,32 @@ class FileLayoutManager < Toolbase
     end    
   end
   
-  def symlink(source, destination, options = {})
-    source = File.expand_path(source)
+  def symlink(link, destination, options = {})
+    link = File.expand_path(source)
     destination = File.expand_path(destination)
     
-    task "symlink #{source} to #{destination}", options do
-      check "symlink exists at #{source}" do
-        File.symlink?(source)
+    task "symlink #{link} to #{destination}", options do
+      check "symlink exists at #{link}" do
+        File.symlink?(link)
       end
       
       unless options[:accept_any_destination]
         check "#{destination} exists" do
-          test_existence?(source)
+          test_existence?(destination)
         end
 
-        check "symlink at #{source} points to #{destination}" do
-          shell "file #{source.inspect}" do |resultcode, output|
-            output == "#{source}: symbolic link to `#{destination}'\n"
+        check "symlink at #{link} points to #{destination}" do
+          shell "file #{link.inspect}" do |resultcode, output|
+            output == "#{link}: symbolic link to `#{destination}'\n"
           end
         end
       end
             
       execute do
         fail!("can't symlink, destination doesn't exist properly") unless test_existence?(destination)
-        fail!("source exists") if File.exist?(source)
+        fail!("link exists") if File.exist?(link)
         
-        File.symlink(destination, source)
+        File.symlink(destination, link)
       end
     end
   end
