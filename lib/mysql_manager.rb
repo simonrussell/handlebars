@@ -160,7 +160,10 @@ class MysqlManager < Toolbase
         end
         
         query.any? do |row|
-          privs.all? { |priv| row["#{priv}_priv"] == 'Y' }
+          privs.all? { |priv| 
+            priv.gsub!(/\ /, '_')
+            row["#{priv}_priv"] == 'Y' 
+          }
         end
       end
       

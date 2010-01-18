@@ -29,7 +29,7 @@ cook %w(base mysql)
 
 mysql.database db_name
 mysql.user db_user_name
-mysql.grant db_user_name, '%', db_name, %w(alter create delete drop index insert select update)
+mysql.grant db_user_name, '%', db_name, %w(alter create delete drop index insert select update lock\ tables)
 
 all_ips_by_role("#{app_name}/#{rails_environment}/web").each do |ip|
   iptables "-I mysql -s #{ip} -j ACCEPT"
