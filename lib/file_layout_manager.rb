@@ -71,7 +71,7 @@ class FileLayoutManager < Toolbase
             
       execute do
         fail!("can't symlink, destination #{destination} doesn't exist properly") unless test_existence?(destination)
-        fail!("link exists") if File.exist?(link)
+        fail!("link exists") if test_existence?(link)
         
         File.symlink(destination, link)
       end
@@ -103,7 +103,7 @@ class FileLayoutManager < Toolbase
   protected
   
   def test_existence?(name)
-    File.exist?(name)
+    raise "this method must be implemented in a child class" 
   end
   
   def set_options_on_file(name, options)

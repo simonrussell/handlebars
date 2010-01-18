@@ -128,7 +128,7 @@ class FileManager < FileLayoutManager
   protected
   
   def test_existence?(name)
-    File.file?(name)
+    File.exist?(name)
   end
   
 end
