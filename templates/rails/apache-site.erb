@@ -53,8 +53,9 @@
   RewriteRule ^(.*/)?.git/ - [forbidden,last]
 
   # Redirect non main sites, to main site
-  RewriteCond %{HTTP_HOST} !=<%= @domains.first %> [NC]
-  RewriteRule ^(.+)$        http://<%= @domains.first %>%{REQUEST_URI} [qsappend,redirect=301]
+  RewriteCond %{HTTP_HOST}  !=<%= @domains.first %> [NC]
+  RewriteCond %{HTTP_HOST}  !^$
+  RewriteRule ^/?(.*)       http://<%= @domains.first %>$1 [L,R,NE]
   
   # Check for maintenance file and redirect all requests
   RewriteCond <%= File.join(@cap_root, 'shared/system/maintenance.trigger') %> -f
