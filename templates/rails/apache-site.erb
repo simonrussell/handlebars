@@ -1,15 +1,15 @@
 # Copyright (c) 2010 Tricycle I.T. Pty Ltd
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -17,7 +17,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-# 
+#
 # (from http://www.opensource.org/licenses/mit-license.php)
 
 # this file is generated, do not modify (your changes will be swiftly reversed!)
@@ -31,23 +31,23 @@
     # enable only secure protocols: SSLv3 and TLSv1, but not SSLv2
     SSLProtocol all -SSLv2
   <% end %>
-  
+
   ServerAdmin <%= @server_admin || 'webmaster@tricycledevelopments.com' %>
-  
+
   ServerName <%= @domains.first %>
   <% @domains[1..-1].each do |domain| %>
     ServerAlias <%= domain %>
   <% end %>
 
   DocumentRoot <%= File.join(@cap_root, 'current/public') %>
-  
+
   ErrorLog <%= File.join(@cap_root, 'shared/log/error.log') %>
   CustomLog <%= File.join(@cap_root, 'shared/log/access.log') %> common
-  
+
   RewriteEngine on
   RewriteLog <%= File.join(@cap_root, 'shared/log/rewrite.log') %>
   RewriteLogLevel 2
-  
+
   # Important rules to prevent exposure of SCM files if you are deploying with Capistrano !
   RewriteRule ^(.*/)?.svn/ - [forbidden,last]
   RewriteRule ^(.*/)?.git/ - [forbidden,last]
@@ -55,15 +55,15 @@
   # Redirect non main sites, to main site
   RewriteCond %{HTTP_HOST}  !=<%= @domains.first %> [NC]
   RewriteCond %{HTTP_HOST}  !^$
-  RewriteRule ^/?(.*)       http://<%= @domains.first %>$1 [L,R,NE]
-  
+  RewriteRule ^/?(.*)       <%= (@certificate ? "https" : "http") %>://<%= @domains.first %>$1 [L,R,NE]
+
   # Check for maintenance file and redirect all requests
   RewriteCond <%= File.join(@cap_root, 'shared/system/maintenance.trigger') %> -f
   RewriteCond %{SCRIPT_FILENAME} !(maintenance.html|css|jpe?g|png|gif)
   RewriteRule ^.*$ /maintenance.html [redirect=503,last]
-  
+
   ErrorDocument 503 /maintenance.html
   ErrorDocument 500 /500.html
-  
+
   RailsEnv <%= @environment %>
 </VirtualHost>
