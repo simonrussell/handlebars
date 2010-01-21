@@ -21,15 +21,3 @@
 # (from http://www.opensource.org/licenses/mit-license.php)
 
 #DISABLED FOR NOW
-#class NfsManager < Toolbase 
-#
-#  def add_export(options)
-#    options[:directory],options[:hosts],options[:permissions]
-#    hosts = options[:hosts].join(',')
-#    permissions = permissions[:hosts].join(',')
-#    line = "#{directory} #{hosts}(#{permissions})"
-#
-#    @server_context.file.line "/etc/exports", line 
-#  end
-#
-#end

@@ -71,7 +71,7 @@ class FileLayoutManager < Toolbase
             
       execute do
         fail!("can't symlink, destination #{destination} doesn't exist properly") unless test_existence?(destination)
-        fail!("link exists") if test_existence?(link)
+        fail!("link exists") if File.exist?(link)
         
         File.symlink(destination, link)
       end

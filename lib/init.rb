@@ -64,7 +64,7 @@ require 'mysql_manager'
 require 'cron_manager'
 require 'ohai_manager'
 require 'iptables_manager'
-#require 'nfs_manager'
+require 'nfs_manager'
 
 require 'server_list'
 
