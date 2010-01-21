@@ -133,10 +133,12 @@ class RemoteServer
       
       log.info 'install ruby enterprise edition' do
         architecture = exec_command('uname -m')[1].strip
-        filename = "ruby-enterprise_1.8.7-2009.10_#{architecture == 'x86_64' ? 'amd64' : 'i386'}.deb"
+        # http://rubyforge.org/frs/download.php/68718/ruby-enterprise_1.8.7-2010.01_i386.deb
+        # http://rubyforge.org/frs/download.php/68720/ruby-enterprise_1.8.7-2010.01_amd64.deb
+        filename = "ruby-enterprise_1.8.7-2010.01_#{architecture == 'x86_64' ? 'amd64' : 'i386'}.deb"
 
         log.info "downloading #{filename}"
-        exec_command "cd /tmp && [ ! -e #{filename} ] && wget -nv http://rubyforge.org/frs/download.php/#{architecture == 'x86_64' ? '66163' : '66164'}/#{filename}"
+        exec_command "cd /tmp && [ ! -e #{filename} ] && wget -nv http://rubyforge.org/frs/download.php/#{architecture == 'x86_64' ? '68720' : '68718'}/#{filename}"
         
         log.info 'installing package'
         exec_command "dpkg -i /tmp/#{filename}"
