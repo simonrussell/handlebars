@@ -140,7 +140,9 @@ class RemoteServer
       end
 
       install_ree_from_package
-    
+      # install_rvm
+      # install_ree_from_rvm
+
       log.info "install other packages" do
         exec_command 'apt-get install -y pcregrep pwgen', true
       end
@@ -164,7 +166,20 @@ class RemoteServer
       exec_command 'ln -s /usr/local/bin/ruby /usr/bin/ruby'
       exec_command 'ln -s /usr/local/bin/ruby /usr/bin/ruby'
     end
-  end      
+  end
+
+  def install_rvm
+    # info on installing RVM for all users:
+    # http://groups.google.com/group/rubyversionmanager/browse_thread/thread/6ea463fd7f610964
+    # NOTE doesn't seem to work that well right at the moment
+    log.info 'installing ruby version manager' do
+      log.info 'installing required packages'
+      exec_command 'apt-get install -y git-core curl bison build-essential zlib1g-dev libssl-dev libreadline5-dev libxml2-dev', true
+
+      log.info 'cloning RVM repo'
+      exec_command 'git clone git://github.com/wayneeseguin/rvm.git /usr/local/rvm/src && cd /usr/local/rvm/src && TERM=linux ./install', true
+    end
+  end
   
   def send_tarball
     log.info "tarball" do    
