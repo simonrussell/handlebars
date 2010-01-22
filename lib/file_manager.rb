@@ -47,11 +47,11 @@ class FileManager < FileLayoutManager
     end
   end  
   
-  def line(name, string)
+  def line(name, string, options = {})
     name = File.join('/', name) unless name =~ /^~/
     name = File.expand_path(name)
 
-    task "put #{string.inspect} in #{name}" do
+    task "put #{string.inspect} in #{name}", options do
       check "make sure #{string.inspect} is in #{name}" do
         content = read_file(name)
         content =~ /^#{Regexp.escape(string)}$/
