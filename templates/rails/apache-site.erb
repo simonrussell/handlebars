@@ -23,21 +23,21 @@
 # this file is generated, do not modify (your changes will be swiftly reversed!)
 
 <VirtualHost *:<%= @port || (@certificate ? 443 : 80) %>>
-  <% if @certificate %>
+  <%- if @certificate -%>
     SSLEngine On
     SSLCertificateFile /etc/apache2/ssl/<%= @certificate %>.crt
     SSLCertificateKeyFile /etc/apache2/ssl/<%= @certificate %>.key
 
     # enable only secure protocols: SSLv3 and TLSv1, but not SSLv2
     SSLProtocol all -SSLv2
-  <% end %>
+  <%- end -%>
 
   ServerAdmin <%= @server_admin || 'webmaster@tricycledevelopments.com' %>
 
-  ServerName <%= @domains.first %>
-  <% @domains[1..-1].each do |domain| %>
-    ServerAlias <%= domain %>
-  <% end %>
+  ServerName <%= @canonical_host %>
+  <%- @aliases.each do |host| -%>
+    ServerAlias <%= host %>
+  <%- end -%>
 
   DocumentRoot <%= File.join(@cap_root, 'current/public') %>
 
@@ -53,9 +53,9 @@
   RewriteRule ^(.*/)?.git/ - [forbidden,last]
 
   # Redirect non main sites, to main site
-  RewriteCond %{HTTP_HOST}  !^<%= @domains.first.gsub(/\./, '\.') %> [NC]
+  RewriteCond %{HTTP_HOST}  !^(<%= ([@canonical_host] + @aliases_without_redirect).join("|").gsub(/\./, '\.') %>) [NC]
   RewriteCond %{HTTP_HOST}  !^$
-  RewriteRule ^/?(.*)       <%= (@certificate ? "https" : "http") %>://<%= @domains.first %>/$1 [L,R=301,NE]
+  RewriteRule ^/?(.*)       <%= (@certificate ? "https" : "http") %>://<%= @canonical_host %>/$1 [L,R=301,NE]
 
   # Check for maintenance file and redirect all requests
   RewriteCond <%= File.join(@cap_root, 'shared/system/maintenance.trigger') %> -f
