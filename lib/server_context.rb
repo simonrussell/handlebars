@@ -82,6 +82,7 @@ class ServerContext
     :auth => :AuthManager,
     :mysql => :MysqlManager,
     :cron => :CronManager,
+    :fstab => :FstabManager,
     :iptables => :IptablesManager
   }.each do |name, klass|
     eval "def #{name}(*args)\n@#{name} ||= #{klass}.new(self)\n@#{name}.default(*args) unless args.empty?\n@#{name}\nend"
