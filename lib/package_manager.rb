@@ -25,6 +25,8 @@ class PackageManager < Toolbase
   def install(*names)
     names = names.flatten
     options = extract_options!(names)
+    force = options.delete(:force) ? '--force-yes' : ''
+    debconf = options.delete(:debconf)
     
     task "install packages #{names.join(', ')}", options do
       packages_installed = shell_or_die('dpkg -l')
@@ -36,7 +38,9 @@ class PackageManager < Toolbase
       end
 
       execute do
-        shell_or_die "apt-get install -y --assume-yes #{names.join(' ')}"
+        ENV['DEBCONF_DB_OVERRIDE'] = "File{#{debconf}}" if debconf
+        ENV['DEBIAN_FRONTEND'] = 'noninteractive'
+        shell_or_die "apt-get install --assume-yes #{force} #{names.join(' ')}"
         @packages_installed = nil
       end        
     end
