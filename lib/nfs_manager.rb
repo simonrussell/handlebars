@@ -20,15 +20,28 @@
 # 
 # (from http://www.opensource.org/licenses/mit-license.php)
 
-#class NfsManager < Toolbase 
-#
-#  def add_export(options)
-#    options[:directory],options[:hosts],options[:permissions]
-#    hosts = options[:hosts].join(',')
-#    permissions = permissions[:hosts].join(',')
-#    line = "#{directory} #{hosts}(#{permissions})"
-#
-#    @server_context.file.line "/etc/exports", line 
-#  end
-#
-#end
+class NfsManager < Toolbase 
+
+  def add_export(directory, options)
+    hosts = options[:hosts].join(',')
+    permissions = options[:permissions].join(',')
+    line = "#{directory} #{hosts}(#{permissions})"
+    exports = "/etc/exports"
+
+    task "add nfs export for #{directory}." do
+      check "make sure #{line} is in #{exports}" do
+        content = read_file(exports)
+        content =~ /^#{Regexp.escape(line)}$/
+      end
+
+      execute do
+        File.open(exports, 'a') { |f| f.puts line }
+        shell_or_die 'exportfs -a'
+      end
+
+    end
+  end
+
+  alias :default :add_export
+
+end
