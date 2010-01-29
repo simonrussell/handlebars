@@ -49,7 +49,7 @@ class ServerList
     result = {}
 
     @servers.each do |hostname, info|
-      result[hostname] = info if (parent.nil? || hostname == parent) && info['roles'].include?(name)
+      result[hostname] = info if (parent.nil? || info['with'] == parent) && info['roles'].include?(name)
     end
 
     result
