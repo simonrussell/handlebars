@@ -128,7 +128,13 @@ class RemoteServer
       upload_template 'templates/sources.list.erb', '/etc/apt/sources.list', :mirror => mirror
     
       log.info "apt-get update" do
+        ENV['DEBIAN_FRONTEND'] = 'noninteractive'
         exec_command 'apt-get update -y', true
+      end
+
+      log.info "apt-get upgrade" do
+        ENV['DEBIAN_FRONTEND'] = 'noninteractive'
+        exec_command 'apt-get upgrade -y', true
       end
       
       log.info 'install ruby enterprise edition' do
