@@ -1,0 +1,39 @@
+Handlebars
+==========
+
+Server "Insert Word Here" from [Trike](http://tricycledevelopments.com/)
+
+Introduction
+------------
+
+Handlebars is a Ruby framework for automating the process of configuring Ubuntu Linux servers. It's implemented as domain specific language where tasks to be run are defined with checks to determine if they need to be run. Handlebars has taken inspiration from Chef and Puppet but aims to have a lower barrier to entry than them and be more flexible than Deprec.
+
+Concepts
+--------
+
+Handlebars utilises the following concepts:
+
+* Tool
+** A tool is a set of functionality for managing a particular resource. Such as directories and files, crontab, Debian packages, Ruby gems, etc.
+* Recipe
+** A recipe uses the tools to achieve some goal state, such as an installed and configured Apache http server.
+* Task
+** A task is a reusable chunk of code generally bundled together for a single type application such as a Ruby on Rails application.
+* Role
+** A role utilises recipes and tools to setup the server for a specific application such as an instance of Wordpress running at blog.example.com.
+* Server
+** A server is an actual server that Handlebars will manage. A server defines the roles that it will perform.
+
+Getting Started
+---------------
+
+The preferred way to use handlebars is as a Git submodule within a master Git repository that stores all of your server configuration:
+
+    mkdir servers
+    cd servers
+    git init
+    git submodule add git://github.com/tricycle/handlebars.git handlebars
+
+Now you're ready to start configuring a server.
+
+More to come
