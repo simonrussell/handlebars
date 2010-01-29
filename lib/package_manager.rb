@@ -47,5 +47,20 @@ class PackageManager < Toolbase
   end
   
   alias :default :install
+
+  def reboot_required?
+
+    running_kernel = shell_or_die("uname -r").strip
+    latest_kernel = File.basename(File.readlink("/vmlinuz")).sub(/^vmlinuz-/, '')
+
+    log.info "checking if #{running_kernel} is latest kernel version" do
+      if latest_kernel == running_kernel
+        log.info :good, "You are running latest installed kernel. Reboot not required"
+      else
+        log.warning :bad, "You have a newer kernel (#{latest_kernel}) installed. Reboot required"
+      end
+    end
+
+  end
     
 end
