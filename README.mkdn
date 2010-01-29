@@ -36,4 +36,27 @@ The preferred way to use handlebars is as a Git submodule within a master Git re
 
 Now you're ready to start configuring a server.
 
-More to come
+Example/Demo/Tutorial
+=====================
+
+In this complete example we will setup a Wordpress installation with a MySQL database on an Amazon AWS EC2 instance. To follow along you will need an Amazon Web Services account.
+
+You should have performed the steps above in Getting Started and be in to the "servers" directory.
+
+Define the Server
+-----------------
+
+Create a servers.yml file and add the server. As the extension suggests this file is in YAML format:
+    
+    handlebars-example: # Server hostname (required)
+      server: 192.168.1.2 # Server IP address (required)
+      mirror: http://mirror.internode.on.net/pub/ubuntu/ubuntu/ # Alternate mirror for Ubuntu packages (optional)
+      roles: # One or more roles that the server will perform
+        - location/demo
+        - demo/db
+        - demo/wordpress
+
+Now create the recipes, roles and location directories:
+
+    mkdir -p recipes/roles/{demo,location}
+
