@@ -1,7 +1,7 @@
 Handlebars
 ==========
 
-Server "Insert Word Here" from [Trike](http://tricycledevelopments.com/)
+Server provisioning from [Trike](http://tricycledevelopments.com/)
 
 Introduction
 ------------
