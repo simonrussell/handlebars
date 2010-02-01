@@ -6,7 +6,9 @@ Server provisioning from [Trike](http://tricycledevelopments.com/)
 Introduction
 ------------
 
-Handlebars is a Ruby framework for automating the process of configuring Ubuntu Linux servers. It's implemented as domain specific language where tasks to be run are defined with checks to determine if they need to be run. Handlebars has taken inspiration from Chef and Puppet but aims to have a lower barrier to entry than them and be more flexible than Deprec.
+Handlebars is a Ruby framework for automating the process of configuring Ubuntu Linux servers. It's implemented as domain specific language where tasks to be run are defined with checks to determine if they need to be run. Handlebars has taken inspiration from Chef and Puppet but aims to have a lower barrier to entry than them and be less opinionated than Deprec.
+
+Handlebars allows recipes for one of more servers to be defined such that those servers will be fully configured without any interaction. Its also repeatable so an existing instance of a server can be updated. It was created to allow rapid, non-interactive configuration of server infrastructure on Amazon EC2.
 
 Concepts
 --------
