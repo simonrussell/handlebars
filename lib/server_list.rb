@@ -22,8 +22,8 @@
 
 class ServerList
 
-  def initialize(servers)
-    @servers = servers
+  def initialize(hostname, servers)
+    @servers = servers.find({}) { |group| group.has_key?(hostname) }
   end
 
   def [](hostname)
@@ -31,9 +31,9 @@ class ServerList
   end
 
   def self.cook(hostname, recipes)
-    server_spec = read[hostname]
+    server_spec = read(hostname)[hostname]
 
-    ServerContext.setup(hostname, server_spec[:with]) do
+    ServerContext.setup(hostname) do
       log.info "server: #{hostname}" do
         if recipes
           cook recipes
@@ -45,18 +45,18 @@ class ServerList
     end
   end
 
-  def by_role(name, parent)
+  def by_role(name)
     result = {}
 
     @servers.each do |hostname, info|
-      result[hostname] = info if (parent.nil? || info['with'] == parent) && info['roles'].include?(name)
+      result[hostname] = info if info['roles'].include?(name)
     end
 
     result
   end
 
-  def self.read(filename = File.join($APP_BASE, 'servers.yml'))
-    new(YAML.load_file(filename))
+  def self.read(hostname, filename = File.join($APP_BASE, 'servers.yml'))
+    new(hostname, YAML.load_file(filename))
   end
 
 end
