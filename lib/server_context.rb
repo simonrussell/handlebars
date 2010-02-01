@@ -25,9 +25,8 @@ class ServerContext
 
   attr_reader :hostname
 
-  def initialize(hostname, parent)
+  def initialize(hostname)
     @hostname = hostname
-    @parent = parent
     @recipes = {}
     @tasks = {}
     @included_recipes = []
@@ -98,8 +97,8 @@ class ServerContext
     end
   end
 
-  def self.setup(hostname, parent, &block)
-    c = ServerContext.new(hostname, parent)
+  def self.setup(hostname, &block)
+    c = ServerContext.new(hostname)
     c.send(:preload_recipes_and_tasks)
     c.instance_eval(&block)
     c
@@ -137,12 +136,12 @@ class ServerContext
     end
   end
 
-  def ip_by_role(role, parent)
-    all_ips_by_role(role, parent).first
+  def ip_by_role(role)
+    all_ips_by_role(role).first || (raise ArgumentError.new("Role '#{role}' not found"))
   end
 
-  def all_ips_by_role(role, parent)
-    servers = ServerList.read.by_role(role, parent)
+  def all_ips_by_role(role)
+    servers = ServerList.read(hostname).by_role(role)
     servers.values.map { |v| v['server'] }
   end
 

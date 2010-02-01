@@ -42,7 +42,7 @@ options = {
   :mirror => (ARGV[4])
 }
 
-server = ServerList.read[options[:hostname]] || {}
+server = ServerList.read(options[:hostname])[options[:hostname]] || {}
 
 options[:mirror] ||= server['mirror']
 options[:server] ||= (server['server'] || options[:hostname])
