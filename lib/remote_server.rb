@@ -132,35 +132,39 @@ class RemoteServer
         # ENV['DEBIAN_FRONTEND'] = 'noninteractive'
         exec_command 'apt-get update -y', true
       end
-
+  
       log.info "apt-get upgrade" do
         # This is running locally so can't alter the environment
         #ENV['DEBIAN_FRONTEND'] = 'noninteractive'
         exec_command 'apt-get upgrade -y', true
       end
-      
-      log.info 'install ruby enterprise edition' do
-        architecture = exec_command('uname -m')[1].strip
-        # http://rubyforge.org/frs/download.php/68718/ruby-enterprise_1.8.7-2010.01_i386.deb
-        # http://rubyforge.org/frs/download.php/68720/ruby-enterprise_1.8.7-2010.01_amd64.deb
-        filename = "ruby-enterprise_1.8.7-2010.01_#{architecture == 'x86_64' ? 'amd64' : 'i386'}.deb"
 
-        log.info "downloading #{filename}"
-        exec_command "cd /tmp && [ ! -e #{filename} ] && wget -nv http://rubyforge.org/frs/download.php/#{architecture == 'x86_64' ? '68720' : '68718'}/#{filename}"
-        
-        log.info 'installing package'
-        exec_command "dpkg -i /tmp/#{filename}"
-        
-        log.info 'symlinking /usr/bin/{ruby|gem} -> /usr/local/bin/{ruby|gem}'
-        exec_command 'ln -s /usr/local/bin/ruby /usr/bin/ruby'
-        exec_command 'ln -s /usr/local/bin/ruby /usr/bin/ruby'
-      end
-      
+      install_ree_from_package
+    
       log.info "install other packages" do
         exec_command 'apt-get install -y pcregrep pwgen', true
       end
     end
   end  
+
+  def install_ree_from_package
+    log.info 'install ruby enterprise edition from package' do
+      architecture = exec_command('uname -m')[1].strip
+      # http://rubyforge.org/frs/download.php/68718/ruby-enterprise_1.8.7-2010.01_i386.deb
+      # http://rubyforge.org/frs/download.php/68720/ruby-enterprise_1.8.7-2010.01_amd64.deb
+      filename = "ruby-enterprise_1.8.7-2010.01_#{architecture == 'x86_64' ? 'amd64' : 'i386'}.deb"
+
+      log.info "downloading #{filename}"
+      exec_command "cd /tmp && [ ! -e #{filename} ] && wget -nv http://rubyforge.org/frs/download.php/#{architecture == 'x86_64' ? '68720' : '68718'}/#{filename}"
+      
+      log.info 'installing package'
+      exec_command "dpkg -i /tmp/#{filename}"
+      
+      log.info 'symlinking /usr/bin/{ruby|gem} -> /usr/local/bin/{ruby|gem}'
+      exec_command 'ln -s /usr/local/bin/ruby /usr/bin/ruby'
+      exec_command 'ln -s /usr/local/bin/ruby /usr/bin/ruby'
+    end
+  end      
   
   def send_tarball
     log.info "tarball" do    
