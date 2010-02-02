@@ -30,3 +30,6 @@ file '/etc/apache2/mods-available/status.conf', :content => template('apache2/st
 
 # include custom types
 file '/etc/apache2/conf.d/types.conf', :content => template('apache2/types.conf.erb'), :after => 'apache2ctl graceful'
+
+# configure the virtualhost conf
+file '/etc/apache2/conf.d/virtualhost.conf', :content => "NameVirtualHost *:80\n", :after => 'apache2ctl graceful'
