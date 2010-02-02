@@ -64,7 +64,39 @@ class GemManager < Toolbase
       end
     end
   end
-  
+
+  def install_from_file(name, version, baseurl)
+    task "install #{name} #{version} from gem file" do
+      gems_installed = shell_or_die("gem list '#{name}'")
+
+      check "gem #{name} is installed" do
+        gems_installed =~ /^#{Regexp.quote(name)} +\(/
+      end
+
+      check "gem #{name} is #{version}" do
+        gems_installed =~ /^#{name} +\(#{Regexp.quote(version)}\)/
+      end
+
+      execute do
+        FileUtils.mkdir_p(PackageManager::SOURCE_ROOT)
+
+        filename = "#{name}-#{version}.gem"
+
+        # fetch with wget
+        log.info "fetching #{baseurl}#{filename}"
+        shell_or_die "cd #{PackageManager::SOURCE_ROOT} && wget #{baseurl}#{filename}"
+
+        # installl
+        log.info "installing"
+        shell_or_die "cd #{PackageManager::SOURCE_ROOT} && gem install #{filename}"
+
+        # Remove downloaded file
+        log.info "removing downloaded file"
+        shell_or_die "cd #{PackageManager::SOURCE_ROOT} && rm #{filename}"
+      end
+    end
+  end
+
   alias :default :install
   
   private
