@@ -53,7 +53,7 @@ file "/etc/apache2/sites-available/#{user_name}",
   :content =>
     template(
       'rails/apache-site.erb',
-      :canonical_host = canonical_host,
+      :canonical_host => canonical_host,
       :aliases => alias_list,
       :aliases_without_redirect => alias_without_redirect_list,
       :cap_root => cap_root,
@@ -92,7 +92,7 @@ if secure
     :content =>
       template(
         'rails/apache-site.erb',
-        :canonical_host = canonical_host,
+        :canonical_host => canonical_host,
         :aliases => alias_list,
         :aliases_without_redirect => alias_without_redirect_list,
         :cap_root => cap_root,

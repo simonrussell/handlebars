@@ -61,4 +61,3 @@ Create a servers.yml file and add the server. As the extension suggests this fil
 Now create the recipes, roles and location directories:
 
     mkdir -p recipes/roles/{demo,location}
-
