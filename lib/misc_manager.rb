@@ -77,48 +77,5 @@ class MiscManager < Toolbase
       end
     end
   end
-  
-  SPHINX_URL_PREFIX = 'http://www.sphinxsearch.com/downloads/'
-  
-  def install_sphinx_server_from_source(version)
-    task "install sphinx server from source" do
-      check "sphinx is installed" do
-        shell 'which searchd' do |resultcode, output|
-          resultcode == 0
-        end
-      end
-      
-      check "sphinx version == #{version}" do
-        shell 'searchd --help' do |resultcode, output|
-          resultcode == 0 && output =~ /\ASphinx #{version}-release/
-        end
-      end
-      
-      execute do
-        FileUtils.mkdir_p(SOURCE_ROOT)
-        
-        filename = "sphinx-#{version}.tar.gz"
 
-        # fetch with wget from rubyforge
-        log.info "fetching #{SPHINX_URL_PREFIX}#{filename}"
-        shell_or_die "cd #{SOURCE_ROOT} && wget #{SPHINX_URL_PREFIX}#{filename}"
-
-        # extract
-        log.info "extracting"
-        shell_or_die "cd #{SOURCE_ROOT} && tar xfz #{filename}"
-
-        # run make
-        log.info "running configure"
-        shell_or_die "cd #{SOURCE_ROOT}sphinx-#{version} && ./configure"
-
-        log.info "running make"
-        shell_or_die "cd #{SOURCE_ROOT}sphinx-#{version} && make"
-        
-        log.info "running make install"
-        shell_or_die "cd #{SOURCE_ROOT}sphinx-#{version} && make install PREFIX=/usr/local"
-      end
-    end
-  end  
-  
-  
 end
