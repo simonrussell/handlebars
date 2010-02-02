@@ -69,6 +69,10 @@ class PackageManager < Toolbase
         log.info "extracting"
         shell_or_die "cd #{SOURCE_ROOT} && tar xfz #{filename}"
 
+        # Remove archive
+        log.info "removing downloaded file"
+        shell_or_die "cd #{SOURCE_ROOT} && rm #{filename}"
+
         # run make
         log.info "running configure"
         shell_or_die "cd #{SOURCE_ROOT}#{package}-#{version} && ./configure --prefix=/usr/local"
