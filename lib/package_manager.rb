@@ -82,6 +82,9 @@ class PackageManager < Toolbase
 
         log.info "running make install"
         shell_or_die "cd #{SOURCE_ROOT}#{package}-#{version} && make install"
+
+        log.info "running ldconfig"
+        shell_or_die "ldconfig"
       end
     end
   end
