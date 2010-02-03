@@ -23,7 +23,8 @@
 class ServerList
 
   def initialize(hostname, servers)
-    @servers = servers.find({}) { |group| group.has_key?(hostname) }
+    servers = [servers] unless servers.is_a?(Array)
+    @servers = servers.find { |group| group.has_key?(hostname) } || {}
   end
 
   def [](hostname)
