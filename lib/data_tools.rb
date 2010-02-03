@@ -92,9 +92,9 @@ module DataTools
       when :all_keys
         keys.values
       when Symbol
-        login_key(keys[":#{name}"].split)
+        login_key((keys[":#{name}"] || '').split)
       when /^\:/
-        login_key(keys[name].split)
+        login_key((keys[name] || '').split)
       else
         keys[name]
       end
