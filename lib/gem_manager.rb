@@ -61,6 +61,9 @@ class GemManager < Toolbase
           log.info "installing #{human_gem_list(name => version)}"
           shell_or_die "gem install #{name} #{"--version #{version}" unless version == true} --no-ri --no-rdoc"
         end
+
+        Gem.clear_paths   # in case we're going to use any of these gems
+        Gem.refresh       # we're going to reset everything
       end
     end
   end
