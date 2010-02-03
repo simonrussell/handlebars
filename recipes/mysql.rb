@@ -11,11 +11,12 @@ mysql.cleanup_users
 
 file.put 'my.cnf', '/etc/mysql/my.cnf', :after => '/etc/init.d/mysql restart'
 
-#iptables %(
-#  -N mysql                                      # create a chain for mysql
-#  -A mysql -j LOG --log-level 7                 # log everything
-#  -A mysql -j DROP                              # drop everything!
-#
-#  -A INPUT -p tcp --dport 3306 -g mysql         # jump to the mysql chain if tcp and port 3306
-#  -A INPUT -p udp --dport 3306 -g mysql         # jump to the mysql chain if tcp and port 3306
-#)
+cook 'iptables'
+iptables %(
+  -N mysql                                      # create a chain for mysql
+  -A mysql -j LOG --log-level 7                 # log everything
+  -A mysql -j DROP                              # drop everything!
+
+  -A INPUT -p tcp --dport 3306 -g mysql         # jump to the mysql chain if tcp and port 3306
+  -A INPUT -p udp --dport 3306 -g mysql         # jump to the mysql chain if tcp and port 3306
+)
