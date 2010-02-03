@@ -30,7 +30,7 @@ cap_root = File.join('/srv/www', user_name)
 alias_list = aliases.keys
 alias_without_redirect_list = aliases.reject { |name, do_redirect| do_redirect }.keys
 
-cook %w(base passenger shared/sphinx_server)
+cook %w(base passenger)
 
 auth.user user_name, :sudoer => true, :home => true, :login_keys => :all
 
