@@ -28,7 +28,6 @@ $APP_BASE = File.expand_path(File.join(File.dirname(__FILE__), '../..'))
 begin
   require 'rubygems'
   require 'json'
-  require 'mysql'
 rescue LoadError
   # doesn't matter, they're not installed
 end

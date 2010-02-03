@@ -25,6 +25,7 @@ class MysqlConnection
   attr_reader :real_connection
   
   def initialize(host, user, password, database)
+    require 'mysql'   # just in case it's not loaded
     @real_connection = Mysql.new(host, user, password, database)
     @real_connection.reconnect = true
   end
