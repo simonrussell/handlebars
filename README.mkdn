@@ -35,6 +35,7 @@ The preferred way to use handlebars is as a Git submodule within a master Git re
     cd servers
     git init
     git submodule add git://github.com/tricycle/handlebars.git handlebars
+    handlebars/handlebars.rb install
 
 Now you're ready to start configuring a server.
 
